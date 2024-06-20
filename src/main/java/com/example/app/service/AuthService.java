@@ -7,6 +7,6 @@ import com.example.app.dto.RegisterRequestDTO;
 public interface AuthService {
 
 	public GeneralResponseWithTokenDTO login(LoginRequestDTO body);
-	public GeneralResponseWithTokenDTO refreshToken();
+	public GeneralResponseWithTokenDTO refreshToken(String token);
 	public GeneralResponseWithTokenDTO register(RegisterRequestDTO body);
 }

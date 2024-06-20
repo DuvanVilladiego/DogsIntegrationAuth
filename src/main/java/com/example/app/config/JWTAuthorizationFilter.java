@@ -1,9 +1,11 @@
 package com.example.app.config;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -34,7 +36,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		var login = tokenService.validateToken(token);
 		if (login != null) {
 			UserEntity user = userRepository.findByEmail(login).orElseThrow(() -> new RuntimeException(Constants.USER_NOT_FOUND_MESSAGE));
-			var authentication = new UsernamePasswordAuthenticationToken(user, null);
+			var authorities = Collections.singletonList(new SimpleGrantedAuthority(Constants.ROLE_USER));
+			var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 		filterChain.doFilter(request, response);
@@ -42,8 +45,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	private String recoverToken(HttpServletRequest request) {
 		var authHeader = request.getHeader("Authorization");
-		if (authHeader == null)
-			return null;
+		if (authHeader == null) return null;
 		return authHeader.replace("Bearer ", "");
 	}
 }

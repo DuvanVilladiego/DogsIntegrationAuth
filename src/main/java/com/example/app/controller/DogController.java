@@ -9,6 +9,6 @@ import com.example.app.dto.GeneralResponseWithoutTokenDTO;
 
 public interface DogController {
 
-	public ResponseEntity<GeneralResponseWithoutTokenDTO<ArrayList<DogsDTO>>> getDogs();
+	public ResponseEntity<GeneralResponseWithoutTokenDTO<ArrayList<DogsDTO>>> getDogs(int page);
 	
 }

@@ -15,10 +15,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.app.utils.Constants;
 
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig {
-    
+	
+	@Autowired
+	private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
 	@Autowired
 	private JWTAuthorizationFilter jwtAuthorizationFilter;
 
@@ -32,6 +35,9 @@ public class WebSecurityConfig {
 						.anyRequest()
 						.authenticated()
 				)
+	            .exceptionHandling(exception -> exception
+	                    .authenticationEntryPoint(customAuthenticationEntryPoint)
+	            )
 				.addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}

@@ -1,11 +1,9 @@
 package com.example.app.service;
 
-import java.util.ArrayList;
-
-import com.example.app.dto.DogsDTO;
+import com.example.app.dto.DogsListWithPagesDTO;
 
 public interface IntegrationDogService {
 
-	public ArrayList<DogsDTO> getDogsWithImage();
+	public DogsListWithPagesDTO getDogsWithImage(int page);
 	
 }

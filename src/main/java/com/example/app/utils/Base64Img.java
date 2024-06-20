@@ -19,7 +19,7 @@ public class Base64Img {
 			String baseImgFormated = String.format("data:image/%s;base64,%s", getFileExtension(imageUrl), base64Image);
 			return baseImgFormated;
 		} catch (Exception e) {
-			LOG.error(String.format("ERROR PROCESSING THE IMAGE TO BASE64, ERROR: %s", e.getMessage()));
+			LOG.error(String.format(Constants.ERR_PROCESS_IMG, e.getMessage()));
 			return "";
 		}
 	}

@@ -17,8 +17,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GeneralResponseWithoutTokenDTO<T> {
-
 	private boolean status;
 	private String message;
 	private T data;
+	private int numberOfPages;
+	private int currentPage;
 }

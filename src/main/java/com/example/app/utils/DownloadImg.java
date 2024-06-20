@@ -35,7 +35,7 @@ public class DownloadImg {
 					outputStream.close();
 				} catch (final IOException e) {
 					e.printStackTrace();
-					LOG.error(String.format("ERROR DOWNLOADING THE IMAGE, ERROR: %s", e.getMessage()));
+					LOG.error(String.format(Constants.ERR_DOWNLOAD_IMG, e.getMessage()));
 				}
 			}
 		}

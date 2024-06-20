@@ -6,10 +6,12 @@ import com.example.app.dto.GeneralResponseWithTokenDTO;
 import com.example.app.dto.LoginRequestDTO;
 import com.example.app.dto.RegisterRequestDTO;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 public interface AuthController {
 	
 	public ResponseEntity<GeneralResponseWithTokenDTO> login(LoginRequestDTO request);
 	public ResponseEntity<GeneralResponseWithTokenDTO> register(RegisterRequestDTO request);
-	public ResponseEntity<GeneralResponseWithTokenDTO> refreshToken();
+	public ResponseEntity<GeneralResponseWithTokenDTO> refreshToken(HttpServletRequest request);
 	
 }

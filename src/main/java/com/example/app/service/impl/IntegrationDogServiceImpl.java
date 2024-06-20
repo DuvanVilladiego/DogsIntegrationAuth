@@ -13,8 +13,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.app.client.AbstractClient;
 import com.example.app.dto.DogsDTO;
+import com.example.app.dto.DogsListWithPagesDTO;
 import com.example.app.service.IntegrationDogService;
 import com.example.app.utils.Base64Img;
+import com.example.app.utils.Constants;
 import com.example.app.utils.DownloadImg;
 
 @Service
@@ -27,11 +29,12 @@ public class IntegrationDogServiceImpl extends AbstractClient implements Integra
 	}
 
 	@Override
-	public ArrayList<DogsDTO> getDogsWithImage() {
+	public DogsListWithPagesDTO getDogsWithImage(int page) {
 		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 		JSONObject responseJson = new JSONObject(response.getBody());
 		JSONObject message = responseJson.getJSONObject("message");
 		ArrayList<DogsDTO> dogsList = new ArrayList<>();
+        ArrayList<DogsDTO> paginatedDogs = new ArrayList<>();
 		LOG.info("SETTING BREEDS DATA");
 		for (String breed : message.keySet()) {
 			JSONArray subBreeds = message.getJSONArray(breed);
@@ -39,17 +42,27 @@ public class IntegrationDogServiceImpl extends AbstractClient implements Integra
 				for (int i = 0; i < subBreeds.length(); i++) {
 					DogsDTO dog = new DogsDTO();
 					dog.setName(String.format("%s - %s", breed, subBreeds.getString(i)));
-					dog.setImage(getImage(String.format("%s/%s", breed, subBreeds.getString(i))));
 					dogsList.add(dog);
 				}
 			}
 			DogsDTO dog = new DogsDTO();
 			dog.setName(breed);
-			dog.setImage(getImage(breed));
 			dogsList.add(dog);
 		}
 		LOG.info("SETTING BREEDS DATA DONE");
-		return dogsList;
+        int totalDogs = dogsList.size();
+        int pageSize = 5;
+        int totalPages = (int) Math.ceil((double) totalDogs / pageSize);
+        int startIndex = (page - 1) * pageSize;
+        int endIndex = Math.min(page * pageSize, totalDogs);
+        for (int i = startIndex; i < endIndex; i++) {
+            DogsDTO dog = dogsList.get(i);
+            String dogBreed = dog.getName().replace(" - ", "/");
+            String base64Image = getImage(dogBreed);
+            dog.setImage(base64Image);
+            paginatedDogs.add(dog);
+        }
+		return new DogsListWithPagesDTO(paginatedDogs, totalPages, page);
 	}
 
 	private String getImgUrl(String breed) {
@@ -65,7 +78,7 @@ public class IntegrationDogServiceImpl extends AbstractClient implements Integra
 			ByteArrayOutputStream bufferImg = DownloadImg.getImages(images.get(0).toString());
 			return Base64Img.toBase64Img(bufferImg, images.get(0).toString());
 		} catch (Exception e) {
-			LOG.error("NOT FOUND IMAGE FOR: " + dogBreed);
+			LOG.error(String.format(Constants.NOT_FOUND_IMG) + dogBreed);
 			return "";
 		}
 	}

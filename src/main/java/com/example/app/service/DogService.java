@@ -7,6 +7,6 @@ import com.example.app.dto.GeneralResponseWithoutTokenDTO;
 
 public interface DogService {
 	
-	public GeneralResponseWithoutTokenDTO<ArrayList<DogsDTO>> getbreeds();
+	public GeneralResponseWithoutTokenDTO<ArrayList<DogsDTO>> getbreeds(int page);
 	
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.app.utils.Constants;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import com.example.app.controller.AuthController;
 import com.example.app.dto.GeneralResponseWithTokenDTO;
 import com.example.app.dto.LoginRequestDTO;
@@ -46,12 +48,23 @@ public class AuthControllerImpl implements AuthController {
 	
 	@PostMapping(Constants.REFRESH_TOKEN_PATH)
 	@Override
-	public ResponseEntity<GeneralResponseWithTokenDTO> refreshToken() {
-		GeneralResponseWithTokenDTO response = service.refreshToken();
-		if (response.isStatus()) {
-			return ResponseEntity.ok(response);
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-		}
+	public ResponseEntity<GeneralResponseWithTokenDTO> refreshToken(HttpServletRequest request) {
+		 String authorizationHeader = request.getHeader("Authorization");
+		    String token = null;
+		    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+		        token = authorizationHeader.substring(7);
+		    }
+
+		    if (token != null) {
+		        GeneralResponseWithTokenDTO response = service.refreshToken(token);
+		        if (response.isStatus()) {
+		            return ResponseEntity.ok(response);
+		        } else {
+		            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		        }
+		    } else {
+		        GeneralResponseWithTokenDTO response = new GeneralResponseWithTokenDTO(false, Constants.UNAUTH_USER_ERR, null, null);
+		        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+		    }
 	}
 }

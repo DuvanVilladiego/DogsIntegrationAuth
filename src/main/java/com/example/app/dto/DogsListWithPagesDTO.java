@@ -1,24 +1,18 @@
-/**
- * 
- */
 package com.example.app.dto;
+
+import java.util.ArrayList;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * @author duvan
- *
- */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GeneralResponseWithTokenDTO {
-	private boolean status;
-	private String message;
-	private Object data;
-	private String token;
+public class DogsListWithPagesDTO {
+	private ArrayList<DogsDTO> dogsList;
+	private int numberOfPages;
+	private int currentPage;
 }

@@ -2,6 +2,8 @@ package com.example.app.service.impl;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import com.example.app.utils.Constants;
 
 @Service
 public class AuthServiceImpl implements AuthService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(AuthServiceImpl.class);
 
 	@Autowired
 	private UserRepository repository;
@@ -39,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
 			}
 			return new GeneralResponseWithTokenDTO(false, Constants.USER_NOT_FOUND_MESSAGE, null, null);
 		} catch (Exception e) {
+			LOG.error(String.format(Constants.ERR_LOGIN, e.getMessage()));
 			return new GeneralResponseWithTokenDTO(false, e.getMessage(), null, null);
 		}
 	}
@@ -59,14 +64,24 @@ public class AuthServiceImpl implements AuthService {
 	        	return new GeneralResponseWithTokenDTO(false, Constants.USER_ALREADY_EXISTS_MESSAGE, null, null);
 	        }
 		} catch (Exception e) {
+			LOG.error(String.format(Constants.ERR_REGISTER, e.getMessage()));
 			return new GeneralResponseWithTokenDTO(false, e.getMessage(), null, null);
 		}
 	}
 
 	@Override
-	public GeneralResponseWithTokenDTO refreshToken() {
-		// TODO Auto-generated method stub
-		return null;
+	public GeneralResponseWithTokenDTO refreshToken(String token) {
+		try {				
+	        String newToken = this.tokenService.refreshToken(token);
+	        if (newToken!=null) {
+		        return new GeneralResponseWithTokenDTO(true, Constants.SUCCESS_MESSAGE, null, newToken);
+	        } else {
+	        	return new GeneralResponseWithTokenDTO(false, Constants.REFRESH_ERR, null, null);
+	        }
+		} catch (Exception e) {
+			LOG.error(String.format(Constants.ERR_REFRESH, e.getMessage()));
+			return new GeneralResponseWithTokenDTO(false, e.getMessage(), null, null);
+		}
 	}
 
 }
