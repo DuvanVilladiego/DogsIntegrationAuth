@@ -25,15 +25,49 @@ src
 ├── main
 │   ├── java
 │   │   └── com.example.app
+│   │       ├── client
+│   │       │   └── AbstractClient.java
 │   │       ├── config
-│   │       │   ├── WebSecurityConfig.java
+│   │       │   ├── AppConfig.java
+│   │       │   ├── CorsConfig.java
+│   │       │   ├── CustomAuthenticationEntryPoint.java
+│   │       │   ├── JWTAuthorizationFilter.java
+│   │       │   └── WebSecurityConfig.java
 │   │       ├── controller
 │   │       │   ├── AuthController.java
-│   │       ├── model
-│   │       │   ├── AuthRequest.java
+│   │       │   ├── DogController.java
+│   │       │   ├── impl
+│   │       │   │   ├── AuthControllerImpl.java
+│   │       │   │   └── DogControllerImpl.java
+│   │       │   ├── model
+│   │       │   │   ├── UserEntity.java
+│   │       │   │   ├── repository
+│   │       │   │   └── UserRepository.java
+│   │       ├── dto
+│   │       │   ├── DogsDTO.java
+│   │       │   ├── DogsListWithPagesDTO.java
+│   │       │   ├── GeneralResponseWithoutTokenDTO.java
+│   │       │   ├── GeneralResponseWithTokenDTO.java
+│   │       │   ├── LoginRequestDTO.java
+│   │       │   ├── RegisterRequestDTO.java
+│   │       │   └── UserDTO.java
 │   │       ├── service
+│   │       │   ├── AuthService.java
+│   │       │   ├── CustomUserDetailsService.java
 │   │       │   ├── DogService.java
-│   │  		└── DogsIntegrationAuthApiApplication.java
+│   │       │   ├── IntegrationDogService.java
+│   │       │   ├── TokenService.java
+│   │       │   ├── impl
+│   │       │   │   ├── AuthServiceImpl.java
+│   │       │   │   ├── CustomUserDetailsServiceImpl.java
+│   │       │   │   ├── DogServiceImpl.java
+│   │       │   │   ├── IntegrationDogServiceImpl.java
+│   │       │   │   └── TokenServiceImpl.java
+│   │       ├── utils
+│   │       │   ├── Base64Img.java
+│   │       │   ├── Constants.java
+│   │       │   └── DownloadImg.java
+│   │  	    └── DogsIntegrationAuthApiApplication.java
 │   └── resources
 │       ├── application.properties
 ├── test
@@ -115,11 +149,11 @@ src
       "message": "SUCCESS REQUEST",
       "data": [
           {
-            "breed": "labrador",
+            "name": "labrador",
             "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA..."
           },
           {
-            "breed": "poodle",
+            "name": "poodle",
             "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA..."
           }
       ]
@@ -140,7 +174,32 @@ src
    cd DogsIntegrationAuth
    ```
 
-3. **Configurar el Entorno**
+3. **Configuraciones Del Proeycto:**
+  - Ejecute los scripts `usersAuth.sql`.
+  - Asegúrate de que la configuración de la base de datos en `application.properties` sea correcta.
+  - Asegúrate de tener la base de datos `authdog` creada.
+
+    ```properties
+    	spring.application.name=dogs-integration-auth-api
+
+	# Configuración de la base de datos
+	spring.datasource.url=jdbc:postgresql://localhost:5433/authdog
+	spring.datasource.username=
+	spring.datasource.password=
+	spring.datasource.driver-class-name=org.postgresql.Driver
+	
+	# Configuracion del puerto
+	server.port=8082
+	
+	# CLAVE SECRETA DE ENCRIPTACION (no revelar)
+	SUPER_SECRET_KEY=
+	
+	# Endpoint fuente de datos
+	DOGS-URL-BREEDS=https://dog.ceo/api/breeds/list/all
+	DOGS-URL-BREEDS-IMAGES=https://dog.ceo/api/breed/%s/images
+    ```
+    
+4. **Configurar el Entorno**
 
    Asegúrate de tener instalado Java y Maven. Luego, instala las dependencias:
 
@@ -148,13 +207,13 @@ src
    mvn clean install
    ```
 
-4. **Ejecutar la Aplicación**
+5. **Ejecutar la Aplicación**
 
    ```bash
    mvn spring-boot:run
    ```
 
-4. **Probar los Endpoints**
+6. **Probar los Endpoints**
 
    Puedes usar herramientas como Postman para probar los endpoints:
 
@@ -163,7 +222,7 @@ src
    - **Login**: Envía una petición POST a `http://localhost:8080/authentication/refresh-token` con el token JWT en los headers.
    - **Obtener Razas**: Envía una petición GET a `http://localhost:8080/dogs/breeds` con el token JWT en los headers.
      
-  `nota: En el repostorio encontraras una coleccion de postman configurada para realizar pruebas`
+  `nota: En el repostorio encontraras una coleccion de postman configurada para realizar pruebas (Dogs Integration.postman_collection)`
 ### Manejo de Errores
 
 La API maneja errores comunes como autenticación fallida, falta de autorización y errores al consumir la API de Dog CEO. Se utilizan excepciones personalizadas y manejadores de excepciones globales para enviar respuestas adecuadas.
