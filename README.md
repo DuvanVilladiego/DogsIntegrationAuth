@@ -174,9 +174,9 @@ src
    ```
 
 3. **Configuraciones Del Proeycto:**
-  - Ejecute los scripts `usersAuth.sql`.
-  - Asegúrate de que la configuración de la base de datos en `application.properties` sea correcta.
-  - Asegúrate de tener la base de datos `authdog` creada.
+	  - Ejecute los scripts `usersAuth.sql`.
+	  - Asegúrate de que la configuración de la base de datos en `application.properties` sea correcta.
+	  - Asegúrate de tener la base de datos `authdog` creada.
 
     ```properties
 	spring.application.name=dogs-integration-auth-api
