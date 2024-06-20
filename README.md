@@ -89,10 +89,9 @@ src
   - **Request**: 
     ```json
     {
-	  "name": "user",
-	  "email": "test@test.com",
-	  "password": "test"
-	}
+      "email": "test@test.com",
+      "password": "password"
+    }
     ```
   - **Response**:
     ```json
@@ -110,7 +109,7 @@ src
   - **Request**: 
     ```json
     {
-      "email": "dsds@gmail.com",
+      "email": "test@test.com",
       "password": "password"
     }
     ```
@@ -180,8 +179,8 @@ src
   - Asegúrate de tener la base de datos `authdog` creada.
 
     ```properties
-    	spring.application.name=dogs-integration-auth-api
-
+	spring.application.name=dogs-integration-auth-api
+	
 	# Configuración de la base de datos
 	spring.datasource.url=jdbc:postgresql://localhost:5433/authdog
 	spring.datasource.username=
