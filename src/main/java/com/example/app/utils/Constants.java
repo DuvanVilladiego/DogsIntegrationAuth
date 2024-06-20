@@ -16,6 +16,7 @@ public class Constants {
 	public static final String LOGIN_MATCHER_PATH = String.format("%s/%s", AUTHENTICATION_PATH, LOGIN_PATH);
 	public static final String REGISTER_MATCHER_PATH = String.format("%s/%s", AUTHENTICATION_PATH, REGISTER_PATH);
 	public static final String REFRESH_TOKEN_MATCHER_PATH = String.format("%s/%s", AUTHENTICATION_PATH, REFRESH_TOKEN_PATH);
+	public static final String breeds = String.format("%s/%s", DOGS_PATH, BREEDS_PATH);
 
 	//RESPONSE MESSAGES
 	public static final String SUCCESS_MESSAGE = "SUCCESS REQUEST";

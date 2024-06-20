@@ -63,7 +63,7 @@ public class IntegrationDogServiceImpl extends AbstractClient implements Integra
 			JSONObject data = new JSONObject(response.getBody());
 			JSONArray images = data.getJSONArray("message");
 			ByteArrayOutputStream bufferImg = DownloadImg.getImages(images.get(0).toString());
-			return Base64Img.toBase64Img(bufferImg);
+			return Base64Img.toBase64Img(bufferImg, images.get(0).toString());
 		} catch (Exception e) {
 			LOG.error("NOT FOUND IMAGE FOR: " + dogBreed);
 			return "";
