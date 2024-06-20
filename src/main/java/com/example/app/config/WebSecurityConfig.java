@@ -28,6 +28,7 @@ public class WebSecurityConfig {
 				.authorizeHttpRequests(authz -> authz
 						.requestMatchers(HttpMethod.POST, Constants.LOGIN_MATCHER_PATH).permitAll()
 						.requestMatchers(HttpMethod.POST, Constants.REGISTER_MATCHER_PATH).permitAll()
+						.requestMatchers(HttpMethod.POST, Constants.REFRESH_TOKEN_MATCHER_PATH).permitAll()
 						.anyRequest()
 						.authenticated()
 				)

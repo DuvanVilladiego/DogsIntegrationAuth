@@ -1,5 +1,12 @@
 package com.example.app.service;
 
-public interface DogService {
+import java.util.ArrayList;
 
+import com.example.app.dto.DogsDTO;
+import com.example.app.dto.GeneralResponseWithoutTokenDTO;
+
+public interface DogService {
+	
+	public GeneralResponseWithoutTokenDTO<ArrayList<DogsDTO>> getbreeds();
+	
 }

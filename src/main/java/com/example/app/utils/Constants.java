@@ -15,7 +15,8 @@ public class Constants {
 	//PATHS MATCHERS
 	public static final String LOGIN_MATCHER_PATH = String.format("%s/%s", AUTHENTICATION_PATH, LOGIN_PATH);
 	public static final String REGISTER_MATCHER_PATH = String.format("%s/%s", AUTHENTICATION_PATH, REGISTER_PATH);
-	
+	public static final String REFRESH_TOKEN_MATCHER_PATH = String.format("%s/%s", AUTHENTICATION_PATH, REFRESH_TOKEN_PATH);
+
 	//RESPONSE MESSAGES
 	public static final String SUCCESS_MESSAGE = "SUCCESS REQUEST";
 	public static final String USER_NOT_FOUND_MESSAGE = "USER NOT FOUND";
