@@ -1,4 +1,4 @@
-# Project: REST API to consume the Dog CEO API
+# REST API to consume the Dog CEO API
 
 ## Description
 
