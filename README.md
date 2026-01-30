@@ -1,24 +1,24 @@
-## Proyecto: API REST para consumir la API de Dog CEO
+# Project: REST API to consume the Dog CEO API
 
-### Descripción
+## Description
 
-Este proyecto consiste en crear una API REST que consuma la API de Dog CEO para obtener información sobre razas de perros y convertir las imágenes de las razas en base64. Además, se implementará un sistema de autenticación basado en JWT para proteger los endpoints. El proyecto maneja controles de error para garantizar la estabilidad y la correcta respuesta del servicio.
+This project consists of creating a REST API that consumes the Dog CEO API to obtain information about dog breeds and convert breed images into base64 format. In addition, a JWT-based authentication system is implemented to protect the endpoints. The project handles error controls to ensure stability and proper service responses.
 
-### Requerimientos
+## Requirements
 
-- Crear método de autenticación (JWT)
-- Crear endpoint para buscar las razas de perros y convertir las imágenes en base64
-- Manejar controles de error en la API
+* Create authentication method (JWT)
+* Create endpoint to search dog breeds and convert images to base64
+* Handle error controls in the API
 
-### Tecnologías Utilizadas
+## Technologies Used
 
-- **Lenguaje**: Java
-- **Framework**: Spring Boot
-- **Seguridad**: Spring Security con JWT
-- **Manejo de Dependencias**: Maven
-- **Base de Datsos**: PostgresSQL
+* **Language**: Java
+* **Framework**: Spring Boot
+* **Security**: Spring Security with JWT
+* **Dependency Management**: Maven
+* **Database**: PostgreSQL
 
-### Estructura del Proyecto
+## Project Structure
 
 ```
 src
@@ -67,7 +67,7 @@ src
 │   │       │   ├── Base64Img.java
 │   │       │   ├── Constants.java
 │   │       │   └── DownloadImg.java
-│   │  	    └── DogsIntegrationAuthApiApplication.java
+│   │       └── DogsIntegrationAuthApiApplication.java
 │   └── resources
 │       ├── application.properties
 ├── test
@@ -80,150 +80,160 @@ src
 └── README.md
 ```
 
-### Endpoints
+## Endpoints
 
-#### Register
+### Register
 
-- **POST /authenticate**
-  - **Descripción**: Registro del usuario en la base de datos y loguea al usuario devolviendo un token JWT.
-  - **Request**: 
-    ```json
+* **POST /authenticate**
+* **Description**: Registers the user in the database and logs the user in, returning a JWT token.
+* **Request**:
+
+```json
+{
+  "email": "test@test.com",
+  "password": "password"
+}
+```
+
+* **Response**:
+
+```json
+{
+  "status": true,
+  "message": "SUCCESS REQUEST",
+  "data": null,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+### Authentication
+
+* **POST /authenticate**
+* **Description**: Authenticates the user and returns a JWT token.
+* **Request**:
+
+```json
+{
+  "email": "test@test.com",
+  "password": "password"
+}
+```
+
+* **Response**:
+
+```json
+{
+  "status": true,
+  "message": "SUCCESS REQUEST",
+  "data": null,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+* **POST /refresh-token**
+* **Description**: Verifies a token that is about to expire and returns a new JWT token.
+* **Headers**: Authorization: Bearer [token]
+* **Response**:
+
+```json
+{
+  "status": true,
+  "message": "SUCCESS REQUEST",
+  "data": null,
+  "token": "ciDdbGciOiPLOzI1HoIsInE2cCI6IkpXVCJ8..."
+}
+```
+
+## Get Dog Breeds
+
+* **GET /breeds**
+* **Description**: Returns a list of dog breeds with their images encoded in base64.
+* **Headers**: Authorization: Bearer [token]
+* **Response**:
+
+```json
+{
+  "status": true,
+  "message": "SUCCESS REQUEST",
+  "data": [
     {
-      "email": "test@test.com",
-      "password": "password"
-    }
-    ```
-  - **Response**:
-    ```json
+      "name": "labrador",
+      "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA..."
+    },
     {
-      "status": true,
-      "message": "SUCCESS REQUEST",
-      "data": null,
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      "name": "poodle",
+      "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA..."
     }
-    ```
-#### Autenticación
+  ]
+}
+```
 
-- **POST /authenticate**
-  - **Descripción**: Autentica al usuario y devuelve un token JWT.
-  - **Request**: 
-    ```json
-    {
-      "email": "test@test.com",
-      "password": "password"
-    }
-    ```
-  - **Response**:
-    ```json
-    {
-      "status": true,
-      "message": "SUCCESS REQUEST",
-      "data": null,
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-    }
-    ```
+## Steps to Run the Project
 
-- **POST /refresh-token**
-  - **Descripción**: Verifica el token a punto de expirar y devuelve un nuevo token JWT.
-  - **Headers**: Authorization: Bearer [token]
-  - **Response**:
-    ```json
-    {
-      "status": true,
-      "message": "SUCCESS REQUEST",
-      "data": null,
-      "token": "ciDdbGciOiPLOzI1HoIsInE2cCI6IkpXVCJ8..."
-    }
-    ```
+1. **Clone the Repository**
 
-#### Obtener Razas de Perros
+```bash
+git clone https://github.com/DuvanVilladiego/DogsIntegrationAuth.git
+```
 
-- **GET /breeds**
-  - **Descripción**: Devuelve una lista de razas de perros con las imágenes en base64.
-  - **Headers**: Authorization: Bearer [token]
-  - **Response**:
-    ```json
-    {
-      "status": true,
-      "message": "SUCCESS REQUEST",
-      "data": [
-          {
-            "name": "labrador",
-            "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA..."
-          },
-          {
-            "name": "poodle",
-            "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABA..."
-          }
-      ]
-    }
-    ```
+2. **Access the Project Directory**
 
-### Pasos para Ejecutar el Proyecto
+```bash
+cd DogsIntegrationAuth
+```
 
-1. **Clonar el Repositorio**
+3. **Project Configuration**
 
-   ```bash
-   git clone https://github.com/DuvanVilladiego/DogsIntegrationAuth.git
-   ```
+* Run the `usersAuth.sql` scripts.
+* Make sure the database configuration in `application.properties` is correct.
+* Ensure the `authdog` database exists.
 
-2. **Accede Al Directorio Del Proyecto**
+```properties
+spring.application.name=dogs-integration-auth-api
 
-   ```bash
-   cd DogsIntegrationAuth
-   ```
+# Database configuration
+spring.datasource.url=jdbc:postgresql://localhost:5433/authdog
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driver-class-name=org.postgresql.Driver
 
-3. **Configuraciones Del Proyecto:**
-	  
-   	- Ejecute los scripts `usersAuth.sql`.
-	- Asegúrate de que la configuración de la base de datos en `application.properties` sea correcta.
-	- Asegúrate de tener la base de datos `authdog` creada.
- 
-     
-    ```properties
-	spring.application.name=dogs-integration-auth-api
-	
-	# Configuración de la base de datos
-	spring.datasource.url=jdbc:postgresql://localhost:5433/authdog
-	spring.datasource.username=
-	spring.datasource.password=
-	spring.datasource.driver-class-name=org.postgresql.Driver
-	
-	# Configuracion del puerto
-	server.port=8082
-	
-	# CLAVE SECRETA DE ENCRIPTACION (no revelar)
-	SUPER_SECRET_KEY=
-	
-	# Endpoint fuente de datos
-	DOGS-URL-BREEDS=https://dog.ceo/api/breeds/list/all
-	DOGS-URL-BREEDS-IMAGES=https://dog.ceo/api/breed/%s/images
-    ```
-    
-4. **Configurar el Entorno**
+# Server port configuration
+server.port=8082
 
-   Asegúrate de tener instalado Java y Maven. Luego, instala las dependencias:
+# Encryption secret key (do not reveal)
+SUPER_SECRET_KEY=
 
-   ```bash
-   mvn clean install
-   ```
+# Data source endpoints
+DOGS-URL-BREEDS=https://dog.ceo/api/breeds/list/all
+DOGS-URL-BREEDS-IMAGES=https://dog.ceo/api/breed/%s/images
+```
 
-5. **Ejecutar la Aplicación**
+4. **Set Up the Environment**
 
-   ```bash
-   mvn spring-boot:run
-   ```
+Make sure Java and Maven are installed, then install dependencies:
 
-6. **Probar los Endpoints**
+```bash
+mvn clean install
+```
 
-   Puedes usar herramientas como Postman para probar los endpoints:
+5. **Run the Application**
 
-   - **Registro**: Envía una petición POST a `http://localhost:8080/authentication/register` con el payload mencionado.
-   - **Login**: Envía una petición POST a `http://localhost:8080/authentication/login` sin payload.
-   - **Login**: Envía una petición POST a `http://localhost:8080/authentication/refresh-token` con el token JWT en los headers.
-   - **Obtener Razas**: Envía una petición GET a `http://localhost:8080/dogs/breeds` con el token JWT en los headers.
-     
-  `nota: En el repostorio encontraras una coleccion de postman configurada para realizar pruebas (Dogs Integration.postman_collection)`
-### Manejo de Errores
+```bash
+mvn spring-boot:run
+```
 
-La API maneja errores comunes como autenticación fallida, falta de autorización y errores al consumir la API de Dog CEO. Se utilizan excepciones personalizadas y manejadores de excepciones globales para enviar respuestas adecuadas.
+6. **Test the Endpoints**
+
+You can use tools like Postman to test the endpoints:
+
+* **Register**: POST `http://localhost:8080/authentication/register`
+* **Login**: POST `http://localhost:8080/authentication/login`
+* **Refresh Token**: POST `http://localhost:8080/authentication/refresh-token`
+* **Get Breeds**: GET `http://localhost:8080/dogs/breeds`
+
+> Note: The repository includes a configured Postman collection for testing
+> (`Dogs Integration.postman_collection`)
+
+## Error Handling
+
+The API handles common errors such as failed authentication, lack of authorization, and errors when consuming the Dog CEO API. Custom exceptions and global exception handlers are used to send appropriate responses.
